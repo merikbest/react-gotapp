@@ -6,11 +6,6 @@ import ErrorMessage from "../errorMessage";
 
 export default class RandomChar extends Component {
 
-    constructor(props) {
-        super(props);
-        this.updateCharacter(); // Когда будет создан инстанс RandomChar у него будет вызван метод updateCharacter()
-    }
-
     gotService = new gotService();
 
     state = {
@@ -18,6 +13,19 @@ export default class RandomChar extends Component {
         character: {},
         loading: true,
         error: false
+    }
+
+    // Mounting - метод вызывается когда компонент успешно отрисовался и появился на странице
+    // Этот метод самое лучшее место для инициализации нашего компонента
+    // Плохая практика делать запросы к серверу в конструкторе,
+    // для этого лучше всего использовать методы жизненного цикла componentDidMount() и componentWillUnmount()
+    componentDidMount() {
+        this.updateCharacter(); // Когда будет создан инстанс RandomChar у него будет вызван метод updateCharacter()
+        this.timerId = setInterval(this.updateCharacter, 2000); // обновление каждые 2 сек
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerId); // остановить таймер когда скрыт контент
     }
 
     // Обработчик событий который устанавливает state
@@ -28,7 +36,7 @@ export default class RandomChar extends Component {
         });
     }
 
-    onError= (err) => {
+    onError = (err) => {
         this.setState({
             error: true,
             loading: false
@@ -36,7 +44,7 @@ export default class RandomChar extends Component {
     }
 
     // Функция обновления рандомного персонажа
-    updateCharacter() {
+    updateCharacter = () => {
         const id = Math.floor(Math.random() * 140 + 25); // от 25 до 140
         this.gotService.getCharacterById(id)
             .then(this.onCharacterLoaded)

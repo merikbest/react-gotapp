@@ -19,7 +19,7 @@ export default class GotService {
     // Для этого необходимо сделать функцию getAllCharacters асинхронной (async),
     // а метод this.getResource пометить ключевым словом await.
     async getAllCharacters() {
-        const listOfCharacters = await this.getResource('/characters?page=5&pageSize=10');
+        const listOfCharacters = await this.getResource(`/characters?page=5&pageSize=10`);
         return listOfCharacters.map(this._transformCharacter); // .map - трансформируем данные в ._transformCharacter
     }
 
@@ -48,9 +48,23 @@ export default class GotService {
         return this._transformHouse(house);
     }
 
+    isSet(data) {
+        if (data) {
+            return data
+        } else {
+            return 'no data :('
+        }
+    }
+
     // Функция выборки данных (избавляемся от дублирования кода)
     _transformCharacter(character) {
         return {
+            // name: this.isSet(character.name),
+            // gender: this.isSet(character.gender),
+            // born: this.isSet(character.born),
+            // died: this.isSet(character.died),
+            // culture: this.isSet(character.culture)
+
             name: character.name,
             gender: character.gender,
             born: character.born,
