@@ -34,8 +34,8 @@ export default class CharDetails extends Component {
 
         // получаем данные из сервиса (персонажа по Id) и изменяем state
         this.gotService.getCharacterById(charId)
-            .then((char) => {
-                this.setState({char});
+            .then((character) => {
+                this.setState({character});
             });
     }
 

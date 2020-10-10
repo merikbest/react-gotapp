@@ -21,7 +21,7 @@ export default class RandomChar extends Component {
     // для этого лучше всего использовать методы жизненного цикла componentDidMount() и componentWillUnmount()
     componentDidMount() {
         this.updateCharacter(); // Когда будет создан инстанс RandomChar у него будет вызван метод updateCharacter()
-        this.timerId = setInterval(this.updateCharacter, 2000); // обновление каждые 2 сек
+        this.timerId = setInterval(this.updateCharacter, 4000); // обновление каждые 2 сек
     }
 
     componentWillUnmount() {
@@ -54,8 +54,8 @@ export default class RandomChar extends Component {
     render() {
         const {character, loading, error} = this.state;
         const errorMessage = error ? <ErrorMessage/> : null;
-        const spinner = error ? <Spinner/> : null;
-        const content = (!loading || error) ? <View character={character}/> : null;
+        const spinner = loading ? <Spinner/> : null;
+        const content = !(loading || error) ? <View character={character}/> : null;
 
         return (
             <div className="random-block rounded">

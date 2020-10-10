@@ -48,28 +48,14 @@ export default class GotService {
         return this._transformHouse(house);
     }
 
-    isSet(data) {
-        if (data) {
-            return data
-        } else {
-            return 'no data :('
-        }
-    }
-
     // Функция выборки данных (избавляемся от дублирования кода)
     _transformCharacter(character) {
         return {
-            // name: this.isSet(character.name),
-            // gender: this.isSet(character.gender),
-            // born: this.isSet(character.born),
-            // died: this.isSet(character.died),
-            // culture: this.isSet(character.culture)
-
-            name: character.name,
-            gender: character.gender,
-            born: character.born,
-            died: character.died,
-            culture: character.culture
+            name: character.name ? character.name : '---',
+            gender: character.gender ? character.gender : '---',
+            born: character.born ? character.born : '---',
+            died: character.died ? character.died : '---',
+            culture: character.culture? character.culture : '---'
         }
     }
 
