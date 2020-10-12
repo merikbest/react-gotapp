@@ -4,7 +4,7 @@ export default class GotService {
         this._apiBase = 'https://www.anapioficeandfire.com/api';
     }
 
-    async getResource(url) {
+    getResource = async (url) => {
         const response = await fetch(`${this._apiBase}${url}`);
 
         if (!response.ok) {
@@ -18,64 +18,80 @@ export default class GotService {
     // Для того что бы функция сработала необходимо подождать ответа сервера иначе ошибка.
     // Для этого необходимо сделать функцию getAllCharacters асинхронной (async),
     // а метод this.getResource пометить ключевым словом await.
-    async getAllCharacters() {
+    getAllCharacters = async () => {
         const listOfCharacters = await this.getResource(`/characters?page=5&pageSize=10`);
         return listOfCharacters.map(this._transformCharacter); // .map - трансформируем данные в ._transformCharacter
     }
 
-    async getCharacterById(id) {
+    getCharacterById = async (id) => {
         const character = await this.getResource(`/characters/${id}`);
         return this._transformCharacter(character);
     }
 
-    async getAllBooks() {
-        const listOfBooks = await this.getResource('/books/')
+    getAllBooks = async () => {
+        const listOfBooks = await this.getResource('/books')
         return listOfBooks.map(this._transformBook);
     }
 
-    async getBooksById(id) {
+    getBooksById = async (id) => {
         const book = await this.getResource(`/books/${id}/`);
         return this._transformBook(book);
     }
 
-    async getAllHouses() {
-        const listOfHouses = await this.getResource('/houses/')
+    getAllHouses = async () => {
+        const listOfHouses = await this.getResource('/houses')
         return listOfHouses.map(this._transformHouse());
     }
 
-    async getHousesById(id) {
+    getHousesById = async (id) => {
         const house = await this.getResource(`/houses/${id}/`);
         return this._transformHouse(house);
     }
 
+    isSet(data) {
+        if (data) {
+            return data;
+        } else {
+            return '---';
+        }
+    }
+
+    _extractId = (item) => {
+        const idRegExp = /\/([0-9]*)$/;
+        return item.url.match(idRegExp)[1];
+    }
+
     // Функция выборки данных (избавляемся от дублирования кода)
-    _transformCharacter(character) {
+    _transformCharacter = (character) => {
         return {
-            name: character.name ? character.name : '---',
-            gender: character.gender ? character.gender : '---',
-            born: character.born ? character.born : '---',
-            died: character.died ? character.died : '---',
-            culture: character.culture? character.culture : '---'
+            id: this._extractId(character),
+            name: this.isSet(character.name),
+            gender: this.isSet(character.gender),
+            born: this.isSet(character.born),
+            died: this.isSet(character.died),
+            culture: this.isSet(character.culture)
         }
     }
 
-    _transformBook(book) {
+    _transformBook = (book) => {
         return {
-            name: book.name,
-            numberOfPages: book.numberOfPages,
-            publisher: book.publisher,
-            released: book.released
+            // id: this._extractId(book),
+            name: this.isSet(book.name),
+            numberOfPages: this.isSet(book.numberOfPages),
+            publisher: this.isSet(book.publisher),
+            released: this.isSet(book.released)
         }
     }
 
-    _transformHouse(house) {
+    _transformHouse = (house) => {
         return {
-            name: house.name,
-            region: house.region,
-            words: house.words,
-            titles: house.titles,
-            overload: house.overload,
-            ancestralWeapons: house.ancestralWeapons
+            // id: this._extractId(house),
+            name: this.isSet(house.name),
+            region: this.isSet(house.region),
+            words: this.isSet(house.words),
+            titles: this.isSet(house.titles),
+            overload: this.isSet(house.overload),
+            ancestralWeapons: this.isSet(house.ancestralWeapons)
         }
     }
 }
