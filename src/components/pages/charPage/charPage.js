@@ -1,12 +1,12 @@
 import React, {Component} from "react";
-import {Col, Row, Container} from 'reactstrap';
-import ItemList from "../itemList";
-import CharDetails, {Field} from "../charDetails";
-import ErrorMessage from '../errorMessage';
-import GotService from "../../services/gotService";
-import RowBlock from "../rowBlock";
+import ItemList from "../../itemList";
+import ErrorMessage from '../../errorMessage';
+import GotService from "../../../services/gotService";
+import RowBlock from "../../rowBlock";
+import ItemDetails, {Field} from "../../itemDetails/itemDetails";
 
 export default class CharPage extends Component {
+
     gotService = new GotService();
 
     state = {
@@ -41,12 +41,14 @@ export default class CharPage extends Component {
         )
 
         const charDetails = (
-            <CharDetails charId={this.state.selectedCharacter}>
+            <ItemDetails
+                itemId={this.state.selectedCharacter}
+                getData={this.gotService.getCharacterById}>
                 <Field field='gender' label='Gender' />
                 <Field field='born' label='Born' />
                 <Field field='died' label='Died' />
                 <Field field='culture' label='Culture' />
-            </CharDetails>
+            </ItemDetails>
         )
 
         return (

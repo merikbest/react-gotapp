@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './itemList.css';
-import gotService from "../../services/gotService";
 import Spinner from "../spinner";
 
 export default class ItemList extends Component {
@@ -14,9 +13,7 @@ export default class ItemList extends Component {
 
         getData()
             .then((itemList) => {
-                this.setState({
-                    itemList
-                });
+                this.setState({itemList});
             });
     }
 

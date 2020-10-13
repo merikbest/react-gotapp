@@ -75,7 +75,7 @@ export default class GotService {
 
     _transformBook = (book) => {
         return {
-            // id: this._extractId(book),
+            id: this._extractId(book),
             name: this.isSet(book.name),
             numberOfPages: this.isSet(book.numberOfPages),
             publisher: this.isSet(book.publisher),
@@ -85,7 +85,7 @@ export default class GotService {
 
     _transformHouse = (house) => {
         return {
-            // id: this._extractId(house),
+            id: this._extractId(house),
             name: this.isSet(house.name),
             region: this.isSet(house.region),
             words: this.isSet(house.words),
