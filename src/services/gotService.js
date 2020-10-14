@@ -56,6 +56,15 @@ export default class GotService {
         }
     }
 
+    _getIdFromURL = (url) => {
+        if(!url) {
+            return null;
+        }
+        const id = +url.match(/(\d+)/)[0];
+        return id;
+    }
+
+
     _extractId = (item) => {
         const idRegExp = /\/([0-9]*)$/;
         return item.url.match(idRegExp)[1];
