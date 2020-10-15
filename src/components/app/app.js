@@ -66,8 +66,7 @@ export default class App extends Component {
                         }
                         }/>
 
-
-                        {/*<Route path='/houses' component={HousePage} />*/}
+                        <Route path='/houses' component={HousePage} />
 
                     </Container>
                 </div>

@@ -13,7 +13,7 @@ const Header = () => {
             </div>
             <ul className="header-list">
                 <li>
-                    <Link to="/character/">Characters</Link>
+                    <Link to="/characters/">Characters</Link>
                 </li>
                 <li>
                     <Link to="/books/">Books</Link>

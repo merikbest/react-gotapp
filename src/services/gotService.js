@@ -7,12 +7,12 @@ export default class GotService {
     getResource = async (url) => {
         const response = await fetch(`${this._apiBase}${url}`);
 
-        if (!response.ok) {
+        if (response.ok) {
+            return await response.json();
+        } else {
             throw new Error(`Could not fetch ${url}, status: ${response.status}`);
         }
-
-        return await response.json();
-    };
+    }
 
     // this.getResource - Асинхронная функция получает данные с сервера.
     // Для того что бы функция сработала необходимо подождать ответа сервера иначе ошибка.
@@ -39,13 +39,19 @@ export default class GotService {
     }
 
     getAllHouses = async () => {
-        const listOfHouses = await this.getResource('/houses')
-        return listOfHouses.map(this._transformHouse());
+        const listOfHouses = await this.getResource('/houses/')
+        return listOfHouses.map(this._transformHouse);
     }
 
     getHousesById = async (id) => {
         const house = await this.getResource(`/houses/${id}/`);
-        return this._transformHouse(house);
+        const houseData = this._transformHouse(house);
+        // modify overlord (URL) to name of character by id from URL
+        if(houseData.overlord) {
+            const char = await this.getCharacterById(houseData.overlord);
+            houseData.overlord = char.name;
+        }
+        return houseData;
     }
 
     isSet(data) {
@@ -55,15 +61,6 @@ export default class GotService {
             return '---';
         }
     }
-
-    _getIdFromURL = (url) => {
-        if(!url) {
-            return null;
-        }
-        const id = +url.match(/(\d+)/)[0];
-        return id;
-    }
-
 
     _extractId = (item) => {
         const idRegExp = /\/([0-9]*)$/;
@@ -82,16 +79,6 @@ export default class GotService {
         }
     }
 
-    _transformBook = (book) => {
-        return {
-            id: this._extractId(book),
-            name: this.isSet(book.name),
-            numberOfPages: this.isSet(book.numberOfPages),
-            publisher: this.isSet(book.publisher),
-            released: this.isSet(book.released)
-        }
-    }
-
     _transformHouse = (house) => {
         return {
             id: this._extractId(house),
@@ -99,8 +86,17 @@ export default class GotService {
             region: this.isSet(house.region),
             words: this.isSet(house.words),
             titles: this.isSet(house.titles),
-            overload: this.isSet(house.overload),
             ancestralWeapons: this.isSet(house.ancestralWeapons)
+        };
+    }
+
+    _transformBook = (book) => {
+        return {
+            id: this._extractId(book),
+            name: this.isSet(book.name),
+            numberOfPages: this.isSet(book.numberOfPages),
+            publisher: this.isSet(book.publisher),
+            released: this.isSet(book.released)
         }
     }
 }

@@ -4,13 +4,14 @@ import ErrorMessage from "../../errorMessage";
 import ItemList from "../../itemList";
 import RowBlock from "../../rowBlock";
 import ItemDetails, {Field} from "../../itemDetails/itemDetails";
+import {withRouter} from 'react-router-dom';
 
-export default class HousePage extends Component {
+class HousePage extends Component {
 
     gotService = new GotService();
 
     state = {
-        selectedHouse: null,
+        selectedHouse: 1,
         error: false
     }
 
@@ -45,7 +46,8 @@ export default class HousePage extends Component {
                 getData={this.gotService.getHousesById}>
                 <Field field='region' label='Region' />
                 <Field field='titles' label='Titles' />
-                <Field field='overload' label='Overload' />
+                <Field field="words" label="Words" />
+                <Field field='overlord' label='Lord' />
                 <Field field='ancestralWeapons' label='Ancestral Weapons' />
             </ItemDetails>
         )
@@ -55,3 +57,5 @@ export default class HousePage extends Component {
         )
     }
 }
+
+export default withRouter(HousePage);

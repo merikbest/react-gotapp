@@ -4,13 +4,14 @@ import ErrorMessage from '../../errorMessage';
 import GotService from "../../../services/gotService";
 import RowBlock from "../../rowBlock";
 import ItemDetails, {Field} from "../../itemDetails/itemDetails";
+import {withRouter} from 'react-router-dom';
 
-export default class CharPage extends Component {
+class CharPage extends Component {
 
     gotService = new GotService();
 
     state = {
-        selectedCharacter: null, // какой персонаж выбран в данный момент
+        selectedCharacter: 130, // какой персонаж выбран в данный момент
         error: false
     }
 
@@ -56,3 +57,5 @@ export default class CharPage extends Component {
         )
     }
 }
+
+export default withRouter(CharPage);
